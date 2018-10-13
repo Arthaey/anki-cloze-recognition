@@ -18,6 +18,8 @@ HINT_FIELD_PREFIX = "Hint"
 PRODUCTION_ID_FIELD = "RecognitionClozeProductionId"
 RECOGNITION_ID_FIELD = "RecognitionClozeRecognitionId"
 
+BROWSER_COLOR_RECOGNITION = "#9E9E9E"
+
 
 ################################################################################
 # DO NOT MODIFY BELOW THIS LINE (unless you know what you're doing)
@@ -30,9 +32,11 @@ MENU_TEXT = "Update recognition cloze cards"
 CLOZE_REGEX = re.compile(r"({{c(\d+)::(?:([^:]+?)(?:::([^:]+?))?)}})")
 
 from PyQt4.QtCore import SIGNAL
-from PyQt4.QtGui import QAction
-from anki.hooks import addHook
+from PyQt4.QtGui import QAction, QBrush, QColor, QItemDelegate
+from anki.hooks import addHook, wrap
 from aqt import mw
+from aqt.browser import StatusDelegate
+from aqt.editor import Editor
 from aqt.utils import showInfo, showText
 from anki.notes import Note
 
@@ -182,6 +186,23 @@ def _getNidsThatAreInconsistent(model):
     return mw.col.findNotes(PRODUCTION_ID_FIELD + ":_* " + RECOGNITION_ID_FIELD + ":_*")
 
 
+def _isRecognitionNote(note):
+    return note and PRODUCTION_ID_FIELD in note.keys() and note[PRODUCTION_ID_FIELD]
+
+
+def _paintRecognitionCardsInBrowser(statusDelegateSelf, painter, option, index):
+    card = statusDelegateSelf.model.getCard(index)
+    note = card.note()
+
+    if _isRecognitionNote(note):
+        brush = QBrush(QColor(BROWSER_COLOR_RECOGNITION))
+        painter.save()
+        painter.fillRect(option.rect, brush)
+        painter.restore()
+
+    return QItemDelegate.paint(statusDelegateSelf, painter, option, index)
+
+
 def _start():
     mw.checkpoint(MENU_TEXT)
     mw.progress.start()
@@ -197,6 +218,8 @@ def _finish():
 def _manuallyUpdateRecognitionClozeCards():
     updateRecognitionClozeCards(manuallyTriggered=True)
 
+
+StatusDelegate.paint = wrap(StatusDelegate.paint, _paintRecognitionCardsInBrowser, "after")
 
 addHook("profileLoaded", updateRecognitionClozeCards)
 

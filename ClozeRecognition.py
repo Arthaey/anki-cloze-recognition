@@ -16,7 +16,7 @@ TEXT_FIELD = "Text"
 HINT_FIELD_PREFIX = "Hint"
 
 PRODUCTION_ID_FIELD = "RecognitionClozeProductionId"
-RECOGNITION_ID_FIELD = "RecognitionClozeRecognitionId	"
+RECOGNITION_ID_FIELD = "RecognitionClozeRecognitionId"
 
 
 ################################################################################

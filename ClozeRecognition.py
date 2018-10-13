@@ -150,6 +150,7 @@ def _updateRecognitionNote(productionNote, recognitionNote):
             recognitionText = re.sub(fullClozeString, recognitionClozeString, recognitionText)
             recognitionNote[TEXT_FIELD] = recognitionText
             recognitionNote[hintField] = productionNote[hintField]
+            recognitionNote.tags = productionNote.tags
 
     recognitionNote.flush()
 

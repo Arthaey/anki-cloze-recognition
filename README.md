@@ -2,8 +2,8 @@
 
 Anki download ID: ANKI_ID_HERE
 
-An Anki add-on to generate "reverse" cloze cards, swapping the cloze words
-with their hint texts.
+An Anki add-on to generate "recognition" cloze cards, which treat the cloze
+hints like the answer side of a Basic card.
 
 # Support
 

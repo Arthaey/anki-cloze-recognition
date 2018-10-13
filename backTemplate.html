@@ -1,0 +1,45 @@
+<div class="card front">
+
+<blockquote>
+  {{cloze:Text}}
+  {{#Citation}}<cite>{{Citation}}</cite>{{/Citation}}
+</blockquote>
+
+{{#RecognitionClozeProductionId}}
+</div>
+<!-- -------------------- --> <hr id="answer"> <!-- -------------------- -->
+<div class="card back">
+{{/RecognitionClozeProductionId}}
+
+{{#c1}}<div class="extra">{{Hint1}}</div>{{/c1}}
+{{#c2}}<div class="extra">{{Hint2}}</div>{{/c2}}
+{{#c3}}<div class="extra">{{Hint3}}</div>{{/c3}}
+{{#c4}}<div class="extra">{{Hint4}}</div>{{/c4}}
+{{#c5}}<div class="extra">{{Hint5}}</div>{{/c5}}
+{{#c6}}<div class="extra">{{Hint6}}</div>{{/c6}}
+{{#c7}}<div class="extra">{{Hint7}}</div>{{/c7}}
+{{#c8}}<div class="extra">{{Hint8}}</div>{{/c8}}
+{{#c9}}<div class="extra">{{Hint9}}</div>{{/c9}}
+
+</div>
+
+{{#Explanation}}
+<div class="card back">{{Explanation}}</div>
+{{/Explanation}}
+
+
+<script type="text/javascript">
+  var ANKI_DATA = {
+    deck: "{{Deck}}",
+    note: "{{Type}}",
+    card: "{{Card}}",
+    tags: "{{Tags}}",
+    recognitionClozeProductionId: "{{RecognitionClozeProductionId}}",
+    recognitionClozeRecognitionId: "{{RecognitionClozeRecognitionId}}"
+  };
+
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+  script.src = "_global.js";
+  document.getElementsByTagName("head")[0].appendChild(script);
+</script>

@@ -2,7 +2,7 @@
 # See github page to report issues or to contribute:
 # https://github.com/Arthaey/anki-cloze-recognition
 #
-# Also available for Anki at https://ankiweb.net/shared/info/ANKI_ID_HERE
+# Also available for Anki at https://ankiweb.net/shared/info/928791899
 
 
 ################################################################################

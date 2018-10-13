@@ -1,6 +1,6 @@
 # Description
 
-Anki download ID: ANKI_ID_HERE
+Anki download ID: 928791899
 
 An Anki add-on to generate "recognition" cloze cards based on normal "production" cloze cards.
 It uses the "production" cloze notes' hint fields like the answer side of a Basic card.
@@ -47,7 +47,7 @@ _(The specific styling in the screenshots below comes from
 
 Post a [new issue on Github](https://github.com/Arthaey/anki-cloze-recognition/issues/new)
 (or make a pull request!). You can also write a review or ask questions on the
-[Anki website for shared add-ons](https://ankiweb.net/shared/info/ANKI_ID_HERE).
+[Anki website for shared add-ons](https://ankiweb.net/shared/info/928791899).
 
 [My other Anki add-ons](https://github.com/search?q=user%3AArthaey+anki)
 are also on Github.

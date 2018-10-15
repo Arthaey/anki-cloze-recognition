@@ -31,6 +31,9 @@ MENU_TEXT = "Update recognition cloze cards"
 
 CLOZE_REGEX = re.compile(r"({{c(\d+)::(?:([^:]+?)(?:::([^:]+?))?)}})")
 
+g_reportMsg = ""
+
+
 from PyQt4.QtCore import SIGNAL
 from PyQt4.QtGui import QAction, QBrush, QColor, QItemDelegate
 from anki.hooks import addHook, wrap
@@ -42,15 +45,19 @@ from anki.notes import Note
 
 
 def updateRecognitionClozeCards(manuallyTriggered=False):
+    global g_reportMsg
+    g_reportMsg = ""
+
     model = _findOrCreateRecognitionClozeModel()
     if len(mw.col.models.nids(model)) > 0:
         _start()
-        reportMsg = ""
-        reportMsg += _updateExistingRecognitionNotes(model)
-        reportMsg += _createNewRecognitionNotes(model)
-        reportMsg += _checkInconsistentNotes(model)
+        g_reportMsg += _updateExistingRecognitionNotes(model)
+        g_reportMsg += _createNewRecognitionNotes(model)
+        g_reportMsg += _checkInconsistentNotes(model)
         _finish()
-        showText(reportMsg)
+        if manuallyTriggered:
+            _showLatestReport()
+
     elif manuallyTriggered:
         showInfo("There are no notes for the '" + RECOGNITION_CLOZE_NOTE_NAME + "' note type. Make some first!")
 
@@ -204,6 +211,10 @@ def _paintRecognitionCardsInBrowser(statusDelegateSelf, painter, option, index):
     return QItemDelegate.paint(statusDelegateSelf, painter, option, index)
 
 
+def _showLatestReport():
+    showText(g_reportMsg)
+
+
 def _start():
     mw.checkpoint(MENU_TEXT)
     mw.progress.start()
@@ -216,6 +227,12 @@ def _finish():
     mw.reset()
 
 
+def _addMenuAction(parentMenu, name, func):
+    action = QAction(name, mw)
+    mw.connect(action, SIGNAL("triggered()"), func)
+    menu.addAction(action)
+
+
 def _manuallyUpdateRecognitionClozeCards():
     updateRecognitionClozeCards(manuallyTriggered=True)
 
@@ -224,6 +241,6 @@ StatusDelegate.paint = wrap(StatusDelegate.paint, _paintRecognitionCardsInBrowse
 
 addHook("profileLoaded", updateRecognitionClozeCards)
 
-action = QAction(MENU_TEXT, mw)
-mw.connect(action, SIGNAL("triggered()"), _manuallyUpdateRecognitionClozeCards)
-mw.form.menuTools.addAction(action)
+menu = mw.form.menuTools.addMenu("Cloze Recognition")
+_addMenuAction(menu, MENU_TEXT, _manuallyUpdateRecognitionClozeCards)
+_addMenuAction(menu, "View report of latest run", _showLatestReport)
